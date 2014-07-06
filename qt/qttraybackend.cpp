@@ -32,7 +32,7 @@ QtTrayBackend::QtTrayBackend(MainWindow* parent):
     m_mainWindow(parent),
     m_trayicon(new QSystemTrayIcon(this))
 {
-    m_trayicon->setIcon(QIcon::fromTheme("hotot", QIcon("share/hotot/image/ic64_hotot.png")));
+    m_trayicon->setIcon(QIcon::fromTheme("hotot_qt-inactive", QIcon("share/hotot/image/ic24_hotot_mono_dark.svg")));
     m_trayicon->show();
     connect(m_trayicon,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -69,5 +69,11 @@ void QtTrayBackend::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
 
 void QtTrayBackend::unreadAlert(QString number)
 {
+    int n = number.toInt();
+    if (n > 0) {
+        m_trayicon->setIcon(QIcon::fromTheme("hotot_qt-active", QIcon("share/hotot/image/ic24_hotot_mono_dark.svg")));
+    } else {
+        m_trayicon->setIcon(QIcon::fromTheme("hotot_qt-inactive", QIcon("share/hotot/image/ic24_hotot.png")));
+    }
     m_trayicon->setToolTip(i18n("%1 unread Messages").arg(number));
 }
